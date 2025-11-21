@@ -1,0 +1,71 @@
+# Makefile for glmnet_wrapper with Intel Fortran Compiler (ifx)
+#
+# Usage:
+#   make -f Makefile.ifx              - Build the wrapper library
+#   make -f Makefile.ifx test         - Build and run tests
+#   make -f Makefile.ifx clean        - Clean build files
+
+# Intel Fortran Compiler settings
+FC = ifx
+FFLAGS = -O3 -xHost -fp-model precise -warn all
+FFLAGS_LEGACY = -O3 -std08 -warn nousage
+INSTALL_DIR = /usr/local
+
+# Files
+GLMNET_SRC = glmnet.f
+WRAPPER_SRC = glmnet_wrapper.f90
+TEST_SRC = test_glmnet_wrapper.f90
+
+GLMNET_OBJ = glmnet.o
+WRAPPER_OBJ = glmnet_wrapper.o
+WRAPPER_MOD = glmnet_wrapper.mod
+
+LIB_NAME = libglmnet_wrapper.a
+TEST_EXE = test_glmnet_wrapper
+
+.PHONY: all test clean install help
+
+all: $(LIB_NAME)
+
+# Compile glmnet.f (legacy Fortran)
+$(GLMNET_OBJ): $(GLMNET_SRC)
+	$(FC) $(FFLAGS_LEGACY) -c $(GLMNET_SRC) -o $(GLMNET_OBJ)
+
+# Compile wrapper module
+$(WRAPPER_OBJ): $(WRAPPER_SRC)
+	$(FC) $(FFLAGS) -c $(WRAPPER_SRC)
+
+# Create static library
+$(LIB_NAME): $(GLMNET_OBJ) $(WRAPPER_OBJ)
+	ar rcs $(LIB_NAME) $(GLMNET_OBJ) $(WRAPPER_OBJ)
+	@echo ""
+	@echo "Library $(LIB_NAME) created with Intel ifx!"
+	@echo "Link with: ifx your_program.f90 $(LIB_NAME)"
+
+# Build and run tests
+test: $(TEST_EXE)
+	@echo ""
+	@echo "Running tests with Intel ifx..."
+	./$(TEST_EXE)
+
+$(TEST_EXE): $(TEST_SRC) $(LIB_NAME)
+	$(FC) $(FFLAGS) $(TEST_SRC) $(LIB_NAME) -o $(TEST_EXE)
+
+# Install to system
+install: $(LIB_NAME)
+	@echo "Installing to $(INSTALL_DIR)..."
+	install -d $(INSTALL_DIR)/lib
+	install -d $(INSTALL_DIR)/include
+	install -m 644 $(LIB_NAME) $(INSTALL_DIR)/lib/
+	install -m 644 $(WRAPPER_MOD) $(INSTALL_DIR)/include/
+	@echo "Use: ifx -I$(INSTALL_DIR)/include your_program.f90 -L$(INSTALL_DIR)/lib -lglmnet_wrapper"
+
+# Clean build files
+clean:
+	rm -f *.o *.mod *.a $(TEST_EXE)
+
+help:
+	@echo "Intel Fortran (ifx) Makefile"
+	@echo "============================"
+	@echo "Targets: all test clean install help"
+	@echo "Example: make -f Makefile.ifx test"
