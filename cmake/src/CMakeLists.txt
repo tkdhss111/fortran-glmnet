@@ -1,0 +1,65 @@
+# Source directory CMakeLists.txt
+
+# Define source files
+set(GLMNET_SOURCES
+    glmnet.f
+)
+
+set(WRAPPER_SOURCES
+    glmnet_wrapper.f90
+)
+
+# Create library target
+if(BUILD_SHARED_LIBS)
+    add_library(glmnet_wrapper SHARED ${GLMNET_SOURCES} ${WRAPPER_SOURCES})
+    message(STATUS "Building shared library")
+else()
+    add_library(glmnet_wrapper STATIC ${GLMNET_SOURCES} ${WRAPPER_SOURCES})
+    message(STATUS "Building static library")
+endif()
+
+# Set library properties
+set_target_properties(glmnet_wrapper PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+    Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    POSITION_INDEPENDENT_CODE ON
+)
+
+# Compiler-specific flags for glmnet.f (legacy Fortran 77 - uses implicit typing)
+if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
+    # GNU gfortran: use legacy standard and suppress warnings
+    set_source_files_properties(glmnet.f PROPERTIES
+        COMPILE_FLAGS "-std=legacy -w -fallow-argument-mismatch"
+    )
+    # Modern Fortran for wrapper - add implicit none
+    set_source_files_properties(glmnet_wrapper.f90 PROPERTIES
+        COMPILE_FLAGS "-fimplicit-none"
+    )
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+    # Intel compilers: allow legacy features for glmnet.f
+    set_source_files_properties(glmnet.f PROPERTIES
+        COMPILE_FLAGS "-standard-semantics -warn nousage -assume nostd_mod_proc_name"
+    )
+    # Modern Fortran for wrapper
+    set_source_files_properties(glmnet_wrapper.f90 PROPERTIES
+        COMPILE_FLAGS "-warn all -implicitnone"
+    )
+endif()
+
+# Add OpenMP if enabled
+if(ENABLE_OPENMP AND OpenMP_Fortran_FOUND)
+    target_link_libraries(glmnet_wrapper PUBLIC OpenMP::OpenMP_Fortran)
+endif()
+
+# Add MKL if enabled
+if(ENABLE_MKL AND MKL_FOUND)
+    target_link_libraries(glmnet_wrapper PUBLIC MKL::MKL)
+endif()
+
+# Include directories for module files
+target_include_directories(glmnet_wrapper
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)

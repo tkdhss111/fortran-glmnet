@@ -1,0 +1,88 @@
+Start testing: Nov 22 09:24 JST
+----------------------------------------------------------
+1/1 Testing: test_glmnet_wrapper
+1/1 Test: test_glmnet_wrapper
+Command: "/home/hss/0_tkd/1_hss/2_tools/fortran-glmnet/cmake/build/tests/test_glmnet_wrapper"
+Directory: /home/hss/0_tkd/1_hss/2_tools/fortran-glmnet/cmake/build/tests
+"test_glmnet_wrapper" start time: Nov 22 09:24 JST
+Output:
+----------------------------------------------------------
+ =======================================
+ Testing Modern glmnet Wrapper Module
+ =======================================
+ 
+ Test 1: lambda=0.1, alpha=0.5 (Elastic Net)
+ --------------------------------------------
+ Number of lambda values fitted:   1
+ Intercept:    -0.0960350037
+  Coefficients:
+   beta[1] =   0.000000000000E+00
+   beta[2] =   0.000000000000E+00
+   beta[3] =   0.141976678371E+01
+ R-squared:     0.9933241010
+  Predictions:
+   yhat[1] =     9.8423328400
+   yhat[2] =    12.6818656921
+   yhat[3] =    22.6202335358
+   yhat[4] =    35.3981361389
+ 
+ Test 2: lambda=1.0, alpha=1.0 (Lasso)
+ --------------------------------------
+ Intercept:     1.9572887421
+  Coefficients:
+   beta[1] =   0.000000000000E+00
+   beta[2] =   0.000000000000E+00
+   beta[3] =   0.129898309708E+01
+ R-squared:     0.9847099185
+ Number of non-zero coefficients:   2
+ 
+ Test 3: lambda=0.1, alpha=0.0 (Ridge)
+ --------------------------------------
+ Intercept:     0.0994243622
+  Coefficients:
+   beta[1] =   0.000000000000E+00
+   beta[2] =  -0.111970283091E+00
+   beta[3] =   0.143461513519E+01
+ R-squared:     0.9935256839
+ 
+ Test 4: Automatic lambda sequence (alpha=0.5)
+ ----------------------------------------------
+ Number of lambda values:   8
+  Lambda sequence:
+   lambda[ 1] =   0.1061E+38, nin =  0, R² =   0.0000
+   lambda[ 2] =   0.7681E+01, nin =  2, R² =   0.7737
+   lambda[ 3] =   0.2760E+01, nin =  2, R² =   0.9492
+   lambda[ 4] =   0.9920E+00, nin =  2, R² =   0.9805
+   lambda[ 5] =   0.3565E+00, nin =  2, R² =   0.9896
+    ...
+ 
+ Test 5: Cross-validation (3-fold)
+ ----------------------------------
+ Number of lambda values:  62
+ Lambda min index:  62
+ Lambda 1-SE index:  54
+ Best lambda (min CV):   0.7332E-01
+ CV error at min:    11.332954
+  Coefficients at lambda.min:
+   beta[1] =   0.000000000000E+00
+   beta[2] =   0.000000000000E+00
+   beta[3] =   0.142331051826E+01
+  Predictions (using lambda.min):
+   obs[1]: y=    7.1000, yhat=    9.8069
+   obs[2]: y=   12.4000, yhat=   12.6535
+   obs[3]: y=   21.5000, yhat=   22.6167
+   obs[4]: y=   36.0000, yhat=   35.4265
+ 
+ =======================================
+ All tests completed!
+ =======================================
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found. Regex=[All tests completed!]
+"test_glmnet_wrapper" end time: Nov 22 09:24 JST
+"test_glmnet_wrapper" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 22 09:24 JST

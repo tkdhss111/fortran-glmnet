@@ -1,0 +1,2 @@
+/usr/bin/ar qc libglmnet_wrapper.a CMakeFiles/glmnet_wrapper.dir/glmnet.f.o CMakeFiles/glmnet_wrapper.dir/glmnet_wrapper.f90.o
+/usr/bin/ranlib libglmnet_wrapper.a

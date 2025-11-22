@@ -1,0 +1,1 @@
+/usr/bin/f95  -ffree-line-length-none -O3 -march=native -mtune=native -funroll-loops CMakeFiles/simple_example.dir/simple_example.f90.o -o simple_example  ../src/libglmnet_wrapper.a 
