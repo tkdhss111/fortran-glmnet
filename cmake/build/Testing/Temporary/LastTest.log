@@ -1,10 +1,10 @@
-Start testing: Nov 22 09:24 JST
+Start testing: Nov 22 11:18 JST
 ----------------------------------------------------------
 1/1 Testing: test_glmnet_wrapper
 1/1 Test: test_glmnet_wrapper
 Command: "/home/hss/0_tkd/1_hss/2_tools/fortran-glmnet/cmake/build/tests/test_glmnet_wrapper"
 Directory: /home/hss/0_tkd/1_hss/2_tools/fortran-glmnet/cmake/build/tests
-"test_glmnet_wrapper" start time: Nov 22 09:24 JST
+"test_glmnet_wrapper" start time: Nov 22 11:18 JST
 Output:
 ----------------------------------------------------------
  =======================================
@@ -60,9 +60,9 @@ Output:
  ----------------------------------
  Number of lambda values:  62
  Lambda min index:  62
- Lambda 1-SE index:  54
+ Lambda 1-SE index:  32
  Best lambda (min CV):   0.7332E-01
- CV error at min:    11.332954
+ CV error at min:     4.901894
   Coefficients at lambda.min:
    beta[1] =   0.000000000000E+00
    beta[2] =   0.000000000000E+00
@@ -81,8 +81,8 @@ Test time =   0.00 sec
 ----------------------------------------------------------
 Test Pass Reason:
 Required regular expression found. Regex=[All tests completed!]
-"test_glmnet_wrapper" end time: Nov 22 09:24 JST
+"test_glmnet_wrapper" end time: Nov 22 11:18 JST
 "test_glmnet_wrapper" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Nov 22 09:24 JST
+End testing: Nov 22 11:18 JST

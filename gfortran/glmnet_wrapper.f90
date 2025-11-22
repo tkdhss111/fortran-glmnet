@@ -33,6 +33,23 @@ module glmnet_wrapper
     final :: result_finalize
   end type glmnet_result
   
+  ! Interface to legacy glmnet.f subroutines
+  interface
+    subroutine elnet(ka, parm, no, ni, x, y, w, jd, vp, cl, ne, nx, nlam, &
+                     flmin, ulam, thr, isd, intr, maxit, lmu, a0, ca, ia, &
+                     nin, rsq, alm, nlp, jerr)
+      integer, intent(in) :: ka, no, ni, ne, nx, nlam, isd, intr, maxit
+      real, intent(in) :: parm, flmin, thr
+      real, intent(inout) :: x(no, ni), y(no), w(no)
+      integer, intent(in) :: jd(*)
+      real, intent(in) :: vp(ni), ulam(nlam)
+      real, intent(inout) :: cl(2, ni)
+      integer, intent(out) :: lmu, nlp, jerr
+      real, intent(out) :: a0(nlam), ca(nx, nlam), rsq(nlam), alm(nlam)
+      integer, intent(out) :: ia(nx), nin(nlam)
+    end subroutine elnet
+  end interface
+  
 contains
 
 ! =======================================================================
